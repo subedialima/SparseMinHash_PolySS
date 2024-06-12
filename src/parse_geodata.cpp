@@ -6,12 +6,14 @@
 
 
 //modified read with wkt for reading both geometry and their unique id
-unordered_map<string, GEOSGeometry*> *read_wkt_with_id(const string &filename, GEOSContextHandle_t ctx) {
+unordered_map<string, GEOSGeometry*> *read_wkt_with_id(const string &filename, GEOSContextHandle_t ctx) 
+{
     auto *geometries = new unordered_map<string, GEOSGeometry*>();
     ifstream file(filename);
     string line;
 
-    if (!file.is_open()) {
+    if (!file.is_open()) 
+    {
         cerr << "Unable to open file: " << filename << endl;
         return geometries;
     }
@@ -21,7 +23,8 @@ unordered_map<string, GEOSGeometry*> *read_wkt_with_id(const string &filename, G
     while (getline(file, line)) {
         size_t firstTabPos = line.find('\t');
         size_t lastTabPos = line.rfind('\t');
-        if (firstTabPos == string::npos || firstTabPos == lastTabPos) {
+        if (firstTabPos == string::npos || firstTabPos == lastTabPos) 
+        {
             cerr << "Invalid line format, skipping: " << line << endl;
             continue;
         }
@@ -126,6 +129,7 @@ GEOSGeometry **read_csv(const char *filename, unsigned int *numGeo,
     return geom;
 }
 
+
 vector<GEOSGeometry *> *read_wkt(const string filename, GEOSContextHandle_t ctx)
 { 
 cout<< filename <<" " << endl;
@@ -192,6 +196,7 @@ cout<< filename <<" " << endl;
     return geom;
 }
 
+
 void thread_read_wkt(const string filename, vector<GEOSGeometry *> *geos,
                      mutex *geos_mutex)
 {
@@ -218,6 +223,7 @@ void thread_read_wkt(const string filename, vector<GEOSGeometry *> *geos,
     delete results;
     GEOS_finish_r(ctx);
 }
+
 
 vector<GEOSGeometry *> *read_wkt_parallel(const string filename,
                                           unsigned char numThreads,
@@ -246,6 +252,7 @@ vector<GEOSGeometry *> *read_wkt_parallel(const string filename,
 
     return geos;
 }
+
 
 GEOSGeometry **read_geojson(const char *filename, unsigned int *numGeo,
                             GEOSContextHandle_t ctx)
