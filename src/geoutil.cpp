@@ -31,12 +31,10 @@ std::vector<std::pair<double, double>> gatherCoordinatePairs(const std::vector<s
 }
 
 
-
-
 //To create Global MBR at root and then broadcast it to every other processes
 GEOSGeometry  *GlobalMbr_parallel(vector<GEOSGeometry *> *geos, int rank)
 { 
-// Create new GEOS context handler
+    // Create new GEOS context handler
     GEOSContextHandle_t ctx = GEOS_init_r();
     
     GEOSGeometry *aggregateLocalMBR = nullptr;
@@ -74,7 +72,7 @@ GEOSGeometry  *GlobalMbr_parallel(vector<GEOSGeometry *> *geos, int rank)
     std::vector<std::pair<double, double>> mbrCoordinates_gathered  = gatherCoordinatePairs(mbrCoordinates,  rank);
       
     //extracting only MBR coordinates
-     auto boundingBox = findBoundingBox(mbrCoordinates_gathered);
+    auto boundingBox = findBoundingBox(mbrCoordinates_gathered);
      
     //broadcasting double type MBR coordinates to all process
     MPI_Bcast(&boundingBox, sizeof(std::pair<std::pair<double, double>, std::pair<double, double>>), MPI_BYTE, 0, MPI_COMM_WORLD);
@@ -93,8 +91,7 @@ return globalMBR;
 
 //to copy geometries with it's unique id 
 unordered_map<string, GEOSGeometry*> copyGeometriesMap(
-const unordered_map<string, GEOSGeometry*>& originalMap, GEOSContextHandle_t ctx
-) 
+const unordered_map<string, GEOSGeometry*>& originalMap, GEOSContextHandle_t ctx) 
 {
     unordered_map<string, GEOSGeometry*> copiedMap;
     for (const auto& pair : originalMap) {
@@ -359,7 +356,7 @@ vector<vector<GEOSGeometry *>> createGrid(GEOSContextHandle_t ctx,
     return result;
 }
 
-// //to create sketch for polygon within grid
+//to create sketch for polygon within grid
 vector<double> sketch(GEOSContextHandle_t ctx,
                       vector<vector<GEOSGeometry *>> *grid, GEOSGeometry *g)
 
@@ -380,10 +377,10 @@ vector<double> sketch(GEOSContextHandle_t ctx,
             if (grid->at(r).at(c) != NULL)
             {    //cout<<"inside grids" <<endl;
            
-             double ratio = fillRatio(ctx, grid->at(r).at(c), g);
+            double ratio = fillRatio(ctx, grid->at(r).at(c), g);
            //result.push_back(fillRatio(ctx, grid->at(r).at(c), g));
-         result.push_back(sqrt(ratio));
-           // result.push_back(pow(ratio, 0.5));
+            result.push_back(sqrt(ratio));
+        
                 
                 
             }
@@ -396,59 +393,13 @@ vector<double> sketch(GEOSContextHandle_t ctx,
 
 
 
-
-
-// vector<double> sketch(GEOSContextHandle_t ctx,
-//                       vector<vector<GEOSGeometry *>> *grid, GEOSGeometry *g)
-// {
-//     vector<double> result;
-//     int rowNum = grid->size();
-//     int colNum;
-// 
-//     // Initialize min and max values
-//     double minVal = std::numeric_limits<double>::max();
-//     double maxVal = std::numeric_limits<double>::lowest();
-// 
-//     // First pass to find min and max
-//     for (int r = 0; r < rowNum; r++) {
-//         colNum = grid->at(r).size();
-//         for (int c = 0; c < colNum; c++) {
-//             GEOSGeometry *cell = grid->at(r).at(c);
-//             if (cell != NULL) {
-//                 double ratio = fillRatio(ctx, cell, g);
-//                 if (ratio < minVal) minVal = ratio;
-//                 if (ratio > maxVal) maxVal = ratio;
-//             }
-//         }
-//     }
-// 
-//     // Second pass to calculate normalized values
-//     for (int r = 0; r < rowNum; r++) {
-//         colNum = grid->at(r).size();
-//         for (int c = 0; c < colNum; c++) {
-//             GEOSGeometry *cell = grid->at(r).at(c);
-//             if (cell != NULL) {
-//                 double ratio = fillRatio(ctx, cell, g);
-//                 // Apply Min-Max Normalization
-//                 double normalizedValue = (ratio - minVal) / (maxVal - minVal);
-//                 result.push_back(normalizedValue);
-//             }
-//         }
-//     }
-// 
-//     result.shrink_to_fit();
-//     return result;
-// }
-
-
-
 // Define the sigmoid scaling function
 double sigmoidScale(double value, double k, double x0) {
     // Sigmoid scaling formula
     return 1.0 / (1.0 + exp(-k * (value - x0)));
 }
 
-
+// Sketch after applying sigmoid transformation
 // vector<double> sketch(GEOSContextHandle_t ctx,
 //                              vector<vector<GEOSGeometry *>> *grid, GEOSGeometry *g)
 // {
@@ -488,7 +439,7 @@ vector<int> LSHHash(vector<double> *sketch, int hashLength,
 
 {
 
-// Check for invalid input
+    // Check for invalid input
     if (!sketch || sketch->empty()) {
         throw std::invalid_argument("LSHHash received an empty sketch vector.");
     }
@@ -520,33 +471,6 @@ vector<int> LSHHash(vector<double> *sketch, int hashLength,
 
     return hash;
 }
-
-
-//generate lsh hash code
-vector<int> LSHHashs(vector<double> *sketch, int hashLength, unsigned int seed)
-{
-    uniform_real_distribution<double> distribution(0.0, static_cast<double>(sketch->size() - 1));
-    vector<int> hash = vector<int>(hashLength, 0);
-
-    // Seed the random number generator outside the loop
-    minstd_rand generator(seed);
-
-    for (int i = 0; i < hashLength; i++)
-    {
-        while (true)
-        {
-            double r = distribution(generator);
-            if (r <= int(r) + sketch->at(static_cast<int>(r)))
-                break;
-
-            hash[i]++;
-        }
-       // cout << "Hash[" << i << "] = " << hash[i] << endl;
-    }
-
-    return hash;
-}
-
 
 
 std::vector<std::pair<double, double>> extractCoordinates(GEOSContextHandle_t ctx, const GEOSGeometry *geometry)
@@ -676,7 +600,6 @@ void printCoordinates(GEOSContextHandle_t ctx, const GEOSGeometry *geometry)
 
         cout << "Point " << i + 1 << ": (" << x << ", " << y << ")" << endl;
     }
-   // cout << "error 7" << endl;
 
     cout << endl;
 }
