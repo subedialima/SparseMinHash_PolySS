@@ -600,17 +600,16 @@ if (rank == 0)
 //printAllHashMaps(maps);
 
 
-
-
  //for sketch similarity
  //  queryThreadFunct(queryGeos,geometrySketchMap, hashMaps, numNeighbor, hashLength, seeds, rank, LSHoutput, global_MBR_grid);
-//std::vector<std::pair<std::pair<std::string, GEOSGeom_t*>, std::vector<std::pair<double, std::pair<std::string, GEOSGeom_t*>>>>> queryResults;
+ //std::vector<std::pair<std::pair<std::string, GEOSGeom_t*>, std::vector<std::pair<double, std::pair<std::string, GEOSGeom_t*>>>>> queryResults;
 
 
-//for polygon simialrity 
-queryThreadFunct(centeredQueryGeosWithID,trimmedGeometrySketchMap, maps, numNeighbor, hashLength, seeds, rank, LSHoutput, global_MBR_grid, cellsToKeep );
+ //for polygon simialrity 
+ queryThreadFunct(centeredQueryGeosWithID,trimmedGeometrySketchMap, maps, numNeighbor, hashLength, seeds, rank, LSHoutput, global_MBR_grid, cellsToKeep );
 
-  if (LSHoutput.empty()) {
+   if (LSHoutput.empty())
+   {
         std::cout << "LSHoutput is empty." << std::endl;
        // return;  // Exit the function early if there's nothing to print
     }
