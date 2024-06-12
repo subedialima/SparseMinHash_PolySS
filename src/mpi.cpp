@@ -15,7 +15,8 @@
 
 using namespace std;
 
-vector<string> splitFileMPI(const string filename, MPI_Comm comm) {
+vector<string> splitFileMPI(const string filename, MPI_Comm comm)
+{
     vector<string> result;
 
     int rank, size;
@@ -25,7 +26,8 @@ vector<string> splitFileMPI(const string filename, MPI_Comm comm) {
     // If the file is in a different directory, preserve the parent directory structure
     size_t filestem_idx = filename.rfind('/');
     string filestem;
-    if (filestem_idx != string::npos) {
+    if (filestem_idx != string::npos)
+    {
         // Filestem detected
         filestem = string(filename, 0, filestem_idx + 1);
     } else {
