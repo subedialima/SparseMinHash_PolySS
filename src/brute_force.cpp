@@ -18,7 +18,8 @@ void BFquery(int rank,
 
     unordered_map<string, GEOSGeometry*> centeredGeosWithID;
     // Center each geometry and store it with its identifier
-    for (const auto& pair : geos) {
+    for (const auto& pair : geos) 
+    {
         GEOSGeometry* centeredGeo = centerGeometry(ctx, pair.second);
         if (centeredGeo) {
             centeredGeosWithID[pair.first] = centeredGeo;
@@ -30,13 +31,15 @@ void BFquery(int rank,
  // Start timing BF
     double startTimeBF = MPI_Wtime();
     
-    for (const auto& queryPair : queryGeos) {
+    for (const auto& queryPair : queryGeos)
+      {
 
     const string& queryID = queryPair.first;
     GEOSGeometry* queryGeo = queryPair.second;
     vector<pair<double, string>> nn;  // Nearest neighbors
 
-    for (const auto& candidatePair : centeredGeosWithID) {
+    for (const auto& candidatePair : centeredGeosWithID)
+      {
      
         const string& candidateID = candidatePair.first;
         GEOSGeometry* candidateGeo = candidatePair.second;
@@ -44,7 +47,7 @@ void BFquery(int rank,
  
         nn.emplace_back(distance, candidateID);
          
-    }
+       }
     // Sort the nearest neighbors by distance
     sort(nn.begin(), nn.end());
     // Keep only the top numNeighbors neighbors
@@ -57,7 +60,7 @@ void BFquery(int rank,
  double endTimeBFB = MPI_Wtime();
  double totalTimeBFB = endTimeBFB - startTimeBF;
     
-     double maxTimeBF;
+ double maxTimeBF;
 
 // Use MPI_Reduce to find the maximum hashing time across all processes
  MPI_Reduce(&totalTimeBFB, &maxTimeBF, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
@@ -70,8 +73,6 @@ if (rank == 0)
  
 MPI_Barrier(MPI_COMM_WORLD) ;
 
-
-
-    GEOS_finish_r(ctx);
+GEOS_finish_r(ctx);
 }
 
