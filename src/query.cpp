@@ -284,12 +284,9 @@ MPI_Reduce(&totalTimeQuery, &maxTotalTimeQuery, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_C
     std::cout << "Maximum time for query(lsh hashing, querying hashmaps) across all processes: " << maxTotalTimeQuery << " seconds" << std::endl;
  }
 
-
- 
 // Clean up the GEOS context
 GEOS_finish_r(ctx);
-    
- 
+
 }
 
 
