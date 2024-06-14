@@ -1,10 +1,3 @@
-# Include
-
-This is were all of the header files for the project are located. 
-
-While not in this repository, if you installed a local copy of GEOS, it is assumed by the 
-makefile that those headers can be found in this directory as well. As far as I know, a 
-system wide copy of GEOS will be found automatically if present. 
 
 ## Files:
 
@@ -27,17 +20,6 @@ Here are all of my tools to read in data to the GEOS library.
 - `read_csv` reads the data format described in the README of the `data/` directory under `csv`. Not used in the final project implementation. 
 - `read_wkt` reads the data format described in the README of the `data/` directory under `wkt`. This is the primary format used for input to the project. It handles all of the file reading and returns a vector of read geometries already filtered to be only polygons.
 - `read_wkt_parallel` functions very similarly to `read_wkt` but uses multi-threading to accelerate the parsing of the WKT. Also not used in the final project in favor of more complex input threads, but is used in `brute_force.cpp` as a proof of concept. 
-
-### `thread.h`
-
-There is the body functions for all three types of threads that this project supports. Since I 
-don't think that I can get the direct output from thread functions using the C++ standard library, 
-each thread has all of its inputs wrapped into a `struct` and all outputs are likewise placed into 
-a `struct` which is created and otherwise managed by the main thread. 
-
-1. Input Threads. These read in data from files which have been split by the main thread (see `util.h`) and perform all the needed preprocessing on the polygons, such as centering them and tracking a local bounding box which is later used to create a global bounding box on the area of interest. 
-2. Construction Threads. These take the processed output of the input threads and first construct sketches of each of the polygons. Once all of the sketches are generated, the threads wait at a barrier for the `gridFilterer` class to process all of the cell usage data and remove cells from the grid which fail to meet some usage requirements. This is done to reduce the dimensionality of the data at the cost of reduced accuracy. After that, the construction threads resume and revise the sketches to drop the same cells. Then locality sensitive hashes are computed and the polygons are inserted into the hash maps. 
-3. Query Threads. These threads read from the query file, then follow a process similar to the construction threads. The polygons are sketched and locality sensitive hashed. However, instead of being inserted into the hash maps, we fetch the bucket from each hash table matching the hash of the polygon and perform a linear search for the nearest neighbors of that polygon, which forms the output of this thread. 
 
 ### `util.h`
 
