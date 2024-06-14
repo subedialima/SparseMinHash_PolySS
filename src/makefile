@@ -1,5 +1,4 @@
 
-#CC = mpicxx
 CC =   /usr/bin/mpicxx
 CFLAGS = -std=c++20 -g -O0 -Wall
 IFLAGS = -I/usr/include
