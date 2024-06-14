@@ -34,6 +34,7 @@ using namespace std;
 // RETURNS : Double pointer to the newly created polygons. Should be updated to
 //           return a vector<GEOSGeometry*>.
 // ----------------------------------------------------------------------------
+
 GEOSGeometry **read_csv(const char *filename, unsigned int *numGeo,
                         GEOSContextHandle_t ctx);
 
@@ -51,8 +52,6 @@ GEOSGeometry **read_csv(const char *filename, unsigned int *numGeo,
 //           FILENAME, filtered to be only the polygons and it's unique id's.
 // ----------------------------------------------------------------------------
 unordered_map<string, GEOSGeometry*> *read_wkt_with_id(const string &filename, GEOSContextHandle_t ctx);
-
-
 
                                           
 #endif
