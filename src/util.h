@@ -203,6 +203,7 @@ template <typename V> class HashMap
 //     }
 };
 
+
 // Possible templates that I will be using. Here so that the compiler creates
 // them when compiling this file seperatly from the rest of the project.
 template class HashMap<int>;
