@@ -1,5 +1,4 @@
 // geometric utilties using GEOS
-//
 // These are small helper functions which interact directly with GEOS shapes but
 // are otherwise utilities.
 
