@@ -17,6 +17,7 @@
 #include <vector>
 
 using namespace std;
+
 vector<string> splitFileMPI(const string filename, MPI_Comm comm);
 
 #endif
