@@ -41,7 +41,6 @@ void LSHHashFunction(
              unsigned int numNeighbor,
              int gridSize,
              int hashLength ,
-            // std::vector<std::pair<std::pair<std::string, GEOSGeom_t*>, std::vector<std::pair<double, std::pair<std::string, GEOSGeom_t*>>>>>& LSHoutput,
              ResultType& LSHoutput,
              GEOSContextHandle_t ctx
              ) ;
