@@ -13,4 +13,8 @@ The project currently has multiple directories.
 
 Within the code itself, each function, class, type, etc in a header file has a description of its respective parameters, return values, members, etc, which I hope will make understanding the code easier. 
 
-To get started, build the project with `make all` in this directory.
+To get started, build the project with `make` in src directory.
+Then run the program using:
+mpirun -n p ./spjoin path_to_input_data path_to_query_data k  
+where p =number of processes,
+k = number of nearest neighbor
