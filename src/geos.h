@@ -1,5 +1,5 @@
 /**********************************************************************
- *
+ 
  * GEOS - Geometry Engine Open Source
  * http://geos.osgeo.org
  *
