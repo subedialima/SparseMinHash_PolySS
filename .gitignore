@@ -5,3 +5,4 @@ include/geos/*
 data/in/*
 data/out/wkt/*
 !data/out/results/*
+
