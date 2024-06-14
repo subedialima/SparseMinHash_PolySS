@@ -373,8 +373,9 @@ template <typename V> const list<V> *HashMap<V>::get(vector<int> const key)
     return nullptr;
 }
 
-// //to get all the values from bucket
-// 
+
+//to get all the values from bucket
+
 // template <typename V> const list<V> *HashMap<V>::get(vector<int> const key)
 //  {
 //     int idx = hash(key); // Compute the bucket index based on the hash of the key
@@ -392,6 +393,4 @@ template <typename V> const list<V> *HashMap<V>::get(vector<int> const key)
 // 
 //     return allValues;
 // }
-// 
-// 
 
