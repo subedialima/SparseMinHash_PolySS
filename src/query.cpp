@@ -157,94 +157,7 @@ for (unsigned int h = 0; h < hashMaps.size(); h++) {
         queryingSortTotal += queryingSortEnd - queryingStart;
 
 }
-// //printing contents of lshoutput
-// for (const auto& result : LSHoutput) {
-//     const string& queryID = result.first;  // The query ID
-//     const auto& neighbors = result.second;  // The vector of nearest neighbors for this query
-// 
-//     std::cout << "Query ID: " << queryID << std::endl;  // Print the query ID
-// 
-//     // Check if there are any neighbors found
-//     if (neighbors.empty()) {
-//         std::cout << "  No neighbors found." << std::endl;
-//     } else {
-//         for (const auto& neighbor : neighbors) {
-//             double distance = neighbor.first;  // The distance to the neighbor
-//             const string& neighborID = neighbor.second;  // The neighbor's ID
-// 
-//             // Print the neighbor's ID and the distance
-//             std::cout << "  Neighbor ID: " << neighborID << ", Distance: " << distance << std::endl;
-//         }
-//     }
-// 
-//     std::cout << std::endl;  // Extra newline for better readability between query results
-// }
 
-//for sketch similarity
-// Initialize variables to store start and end times and total durations
-// double hashingStart, hashingEnd, hashingTotal = 0.0;
-// double queryingStart, queryingEnd, queryingTotal = 0.0;
-// for (const auto& item : QuerygeometrySketchMap){
-//     const string& queryID = item.first;
-//     const vector<double>& querySketch = item.second.second;  // Using the sketch for the query
-//     
-// 
-//     vector<pair<double, string>> nn;  // Nearest neighbors storing only unique id's for preventing memory leak
-//     set<string> visited; // Set to keep track of visited IDs
-// 
-//     for (unsigned int h = 0; h < hashMaps.size(); h++) {
-//     
-//     hashingStart = MPI_Wtime();
-//     
-//     vector<int> hash = LSHHashs(const_cast<vector<double>*>(&querySketch), hashLength, seeds[h]);
-//         
-//         // Print the hash values for debugging
-// cout << "Hash values for query ID " << queryID << ": ";
-// for(int val : hash) {
-//     cout << val << " ";
-// }
-// cout << endl;
-//         
-//         // Stop timing for hashing and accumulate the duration
-//         hashingEnd = MPI_Wtime();
-//         hashingTotal += hashingEnd - hashingStart;
-// 
-//         // Start timing for querying using MPI_Wtime
-//         queryingStart = MPI_Wtime();
-//         const list<string>* bucket = hashMaps[h]->get(hash);
-//         if (bucket != nullptr) {
-//             for (const string& neighborID : *bucket) {
-//                 if (visited.find(neighborID) == visited.end()) {
-//                     auto neighborSketchIt = geometrySketchMap.find(neighborID);
-//                     if (neighborSketchIt != geometrySketchMap.end()) {
-//                         visited.insert(neighborID); // Mark this ID as visited
-//                         const vector<double>& neighborSketch = neighborSketchIt->second.second;  // Using the sketch for the neighbor
-//                         
-//                         // Calculate sketch distance
-//                         double sketchDistance = SketchJaccardDistance(querySketch, neighborSketch);
-// 
-//                         // Store the sketch distance along with the neighbor ID
-//                         nn.push_back(make_pair(sketchDistance, neighborID));
-//                     }
-//                 }
-//             }
-//         }
-//         // Stop timing for querying and accumulate the duration
-//         queryingEnd = MPI_Wtime();
-//         queryingTotal += queryingEnd - queryingStart;
-//     }
-// 
-//     // Sort the nearest neighbors by distance
-//     sort(nn.begin(), nn.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
-// 
-//     // Keep only the required number of nearest neighbors
-//     if (nn.size() > numNeighbors) {
-//         nn.resize(numNeighbors);
-//     }
-// 
-//     // Store the nearest neighbors for the current query
-//     LSHoutput.push_back(make_pair(queryID, nn));
-// }
 
 double maxhashingTotal;
 double maxqueryingTotal;
@@ -490,34 +403,6 @@ if (rank == 0)
     std::cout << "total time for sketch creation input after trimming: " << maxTotalTimeSket << " seconds" << std::endl;
 }
 
-// // for writing output in a file
-// std::string outputSketchFilename = "sports_sketch_" + std::to_string(rank) + ".csv";  // Changed extension to .csv
-// std::ofstream outSKFile("/home/asbmr/LSH-PolySS/data/out/sports/" + outputSketchFilename, std::ios::out);
-
-// if (!outSKFile.is_open()) {
-//     std::cerr << "Failed to open file for writing results." << std::endl;
-//     MPI_Finalize();
-//     //return 1; // or handle the error appropriately
-// }
-
-// for (const auto& polygons : trimmedGeometrySketchMap) {
-//     const std::string& polygonID = polygons.first;  // Query ID
-//     const auto& geometryAndketch = polygons.second;  // Pair of GEOSGeom_t* and vector of doubles
-
-//     // Write the query ID
-//     outSKFile << polygonID << ",";
-
-//     // Write the sketch values, comma-separated
-//     const std::vector<double>& sketch = geometryAndketch.second;
-//     for (const auto& value : sketch) {
-//         outSKFile << value << ",";
-//     }
-
-//     outSKFile << "\n"; // New line for separating entries (removed extra std::endl for blank line)
-// }
-
-// outSKFile.close(); // Don't forget to close the file after writing
-
 
 // Start Hashing time for polygon 
 double startTimeHashing = MPI_Wtime();
@@ -593,14 +478,6 @@ if (rank == 0)
  {
     std::cout << "Maximum Hashing time including LSH hashing and HashMaps creation across all processes: " << maxTotalTimeHashing << " seconds" << std::endl;
 }
-
-//printAllHashMaps(maps);
-
-
- //for sketch similarity
- //  queryThreadFunct(queryGeos,geometrySketchMap, hashMaps, numNeighbor, hashLength, seeds, rank, LSHoutput, global_MBR_grid);
- //std::vector<std::pair<std::pair<std::string, GEOSGeom_t*>, std::vector<std::pair<double, std::pair<std::string, GEOSGeom_t*>>>>> queryResults;
-
 
  //for polygon simialrity 
  queryThreadFunct(centeredQueryGeosWithID,trimmedGeometrySketchMap, maps, numNeighbor, hashLength, seeds, rank, LSHoutput, global_MBR_grid, cellsToKeep );
