@@ -399,39 +399,6 @@ double sigmoidScale(double value, double k, double x0) {
     return 1.0 / (1.0 + exp(-k * (value - x0)));
 }
 
-// Sketch after applying sigmoid transformation
-// vector<double> sketch(GEOSContextHandle_t ctx,
-//                              vector<vector<GEOSGeometry *>> *grid, GEOSGeometry *g)
-// {
-//     vector<double> result;
-//     int rowNum = grid->size();
-//     int colNum;
-// 
-//     // Parameters for the sigmoid function
-//     double k = 10;  // Steepness of the curve
-//     double x0 = 0.05;  // Midpoint
-// 
-//     for (int r = 0; r < rowNum; r++) {
-//         colNum = grid->at(r).size();
-//         for (int c = 0; c < colNum; c++) {
-//             GEOSGeometry *cell = grid->at(r).at(c);
-//             if (cell != NULL) {
-//                 double ratio = fillRatio(ctx, cell, g);
-//                 if (ratio > 0) {
-//                     // Apply the sigmoid scaling to the fill ratio only if it's positive
-//                     double scaledValue = sigmoidScale(ratio, k, x0);
-//                     result.push_back(scaledValue);
-//                 } else {
-//                     // If ratio is not greater than 0, push back the original ratio
-//                     result.push_back(ratio);
-//                 }
-//             }
-//         }
-//     }
-// 
-//     result.shrink_to_fit();
-//     return result;
-// }
 
 
 vector<int> LSHHash(vector<double> *sketch, int hashLength,
