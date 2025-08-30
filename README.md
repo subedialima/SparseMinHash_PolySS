@@ -14,6 +14,36 @@ The project currently has multiple directories.
 
 Within the code itself, each function, class, type, etc in a header file has a description of its respective parameters, return values, members, etc, which I hope will make understanding the code easier. 
 
+SparseMinHash_PolySS/
+├── src/                 # C++20 source code
+│   ├── main.cpp         # Entry point
+│   ├── mpi_gis.cpp      # MPI parallelism
+│   ├── geoutil.cpp      # Geometry utilities
+│   └── query.cpp        # Minhashing
+│   └── brute_force.cpp  # Brute-Force implementation(exact method)
+│   └── util.h.cpp       # Basic utilities (other)
+│   └── parse_geodata.cpp# read wkt files
+├── data/                # Input WKT files and output CSVs (not included)
+├── README.md            # This file
+
+---
+
+## ⚙️ Dependencies
+
+* GEOS (C API) — tested with GEOS 3.12+
+* MPI (e.g., OpenMPI)
+* C++20 compiler (e.g., g++ or clang++)
+* Python (optional for visualization)
+
+  * `shapely`, `matplotlib`
+
+---
+
+## 🔧 Building
+
+```bash
+make
+
 # 1.1 Additional Experimental evaluation of LSH-PolySS
 
 We are using performance metrics such as **Recall@k** and **runtime** taken by LSH-PolySS to query input polygons compared to the ground truth found by brute-force (BF). 
