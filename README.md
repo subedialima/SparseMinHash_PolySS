@@ -1,6 +1,6 @@
 # Approximate Nearest Neighbor with Real World Geometry
 
-This repository contains the source code for LSH-PolySS. 
+This repository contains the source code for SparseMinHash-PolySS. 
 
 This research hopes to use locality sensitive hashing to find the nearest neighbors of polygons using Jaccard Distance as our metric. 
 The project is primarily written in C++ using the reentrant C API for the [GEOS library](https://libgeos.org/) for the hashing algorithms.
