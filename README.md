@@ -114,3 +114,11 @@ Binary encoding is not capable of correctly encoding partial overlaps. This lead
 
 The experimental results in **Table 2** show that reducing the size of the grid leads to an aggregation of polygons that share the same hash, consequently increasing both the recall and the runtime. In some cases, this exceeds the time required by the Brute Force approach.
 
+## Supplementary Material
+
+Additional experimental results for the paper
+"PolySS: A Compact Filter-and-Refine System for
+Efficient Approximate Polygon Similarity Search"
+are available here:
+
+[Supplementary Experimental Results](PolySS_Supplementary_Results.pdf)
